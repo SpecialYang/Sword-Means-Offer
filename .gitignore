@@ -1,3 +1,4 @@
 # intellji
 .idea/
 *.iml
+out/
