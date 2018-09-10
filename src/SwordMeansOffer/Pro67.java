@@ -81,6 +81,11 @@ public class Pro67 {
         }
     }
 
+    /**
+     * 计算环长
+     * @param node
+     * @return
+     */
     public int caculateCircleLength(ListNode node) {
         ListNode start = node;
         int length = 0;
