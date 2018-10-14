@@ -1,6 +1,6 @@
 package SwordMeansOffer;
 
-public class Pro67 {
+public class Pro57 {
 
     public class ListNode {
         int val;
@@ -145,7 +145,7 @@ public class Pro67 {
     }
 
     public static void main(String[] args) {
-        Pro67 pro67 = new Pro67();
+        Pro57 pro67 = new Pro57();
         ListNode pHead = null;
         for(int i = 4; i > 0; i--) {
             pHead = pro67.insert(pHead, pro67.new ListNode(i));
