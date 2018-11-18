@@ -38,6 +38,7 @@ public class Pro67 {
                 || dfs(matrix, row, col - 1, rows, cols, index + 1, str, flag)) {
             return true;
         }
+        //恢复现场
         flag[row][col] = false;
         return false;
     }
