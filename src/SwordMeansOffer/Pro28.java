@@ -4,6 +4,8 @@ import java.util.Stack;
 
 /**
  * Created by Special on 2018/7/18 9:10
+ *
+ * 搜索树与双向链表
  */
 public class Pro28 {
 
@@ -157,5 +159,87 @@ public class Pro28 {
             pRootOfTree = node.right;
         }
         return head;
+    }
+
+    //---2019.02.20 update 对解法一有了新的认识
+
+    /**
+     * 分解问题，解决当前问题，必先解决子问题
+     * @param pRootOfTree
+     * @return
+     */
+    public TreeNode Convert4(TreeNode pRootOfTree) {
+        if (pRootOfTree == null) {
+            return null;
+        }
+        pRootOfTree = process(pRootOfTree);
+        //找到双向链表最开始
+        while (pRootOfTree.left != null) {
+            pRootOfTree = pRootOfTree.left;
+        }
+        return pRootOfTree;
+    }
+
+    private TreeNode process(TreeNode node) {
+        if (node == null) {
+            return null;
+        }
+        //处理左子树
+        TreeNode left = process(node.left);
+        //处理右子树
+        TreeNode right = process(node.right);
+        //找到左子树的最后一个节点
+        while (left != null && left.right != null) {
+            left = left.right;
+        }
+        //拼接左子树
+        if (left != null) {
+            left.right = node;
+            node.left = left;
+        }
+        //找到右子树的最开始的一个节点
+        while (right != null && right.left != null) {
+            right = right.left;
+        }
+        //连接右子树
+        if (right != null) {
+            node.right = right;
+            right.left = node;
+        }
+        //返回当前节点
+        return node;
+    }
+
+    /**
+     * 牛逼的解法
+     *
+     * 直接从底层返回左子树和右子树的构成双向链表的开头和结尾
+     * 避免每次都遍历
+     * @param pRootOfTree
+     * @return
+     */
+    public TreeNode Convert5(TreeNode pRootOfTree) {
+        return process2(pRootOfTree)[0];
+    }
+
+    private TreeNode[] process2(TreeNode node) {
+        if (node == null) {
+            return new TreeNode[]{null, null};
+        }
+        //处理左子树
+        TreeNode[] leftHeads = process2(node.left);
+        //处理右子树
+        TreeNode[] rightHeads = process2(node.right);
+        if (leftHeads[1] != null) {
+            leftHeads[1].right = node;
+            node.left = leftHeads[1].right;
+        }
+        if (rightHeads[0] != null) {
+            rightHeads[0].left = node;
+            node.right = rightHeads[0];
+        }
+        TreeNode head = leftHeads[0] != null ? leftHeads[0] : node;
+        TreeNode tail = rightHeads[1] != null ? rightHeads[1] : node;
+        return new TreeNode[]{head, tail};
     }
 }
